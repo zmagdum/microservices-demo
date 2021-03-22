@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="zakir" id="1">
+        <createTable tableName="exchange_rate">
+            <column autoIncrement="true" name="id" type="INT UNSIGNED">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="from_currency" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_currency" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="DATETIME"/>
+        </createTable>
+        <sql>
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','JPY',108.95,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','EUR',0.84,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','GBP',0.72,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','INR',72.43,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','AUD',1.30,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','AED',3.67,now());
+            insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','SAR',3.75,now());
+        </sql>
+    </changeSet>
+</databaseChangeLog>
