@@ -17,17 +17,31 @@ import static java.lang.String.join;
  *
  * @author Zakir Magdum
  */
-@RefreshScope
 @RestController
 public class ExchangeRateController {
-    @Autowired
-    private ExchangeRateRepository rateRepository;
+    private final ExchangeRateRepository rateRepository;
 
+    public ExchangeRateController(ExchangeRateRepository rateRepository) {
+        this.rateRepository = rateRepository;
+    }
     @RequestMapping("/to-usd/{fromCurrency}")
-    ResponseEntity<Double> getToUsdRate(@PathVariable String fromCurrency) {
-        Optional<ExchangeRate> er = rateRepository.getByFromCurrencyAndToCurrency(fromCurrency, "USD");
+    private ResponseEntity<Double> getToUsdRate(@PathVariable String fromCurrency) {
+        Optional<ExchangeRate> er = rateRepository.getByFromCurrencyAndToCurrency("USD", fromCurrency);
         if (er.isPresent()) {
             return ResponseEntity.ok(er.get().getRate());
+        }
+        throw new IllegalArgumentException(join(" ", "Currencies not found", fromCurrency, "USD"));
+    }
+
+    @RequestMapping("/{toCurrency}/{fromCurrency}")
+    private ResponseEntity<Double> getRate(@PathVariable String toCurrency, @PathVariable String fromCurrency) {
+        if ("USD".equals(toCurrency)) {
+            return getToUsdRate(fromCurrency);
+        }
+        Optional<ExchangeRate> er1 = rateRepository.getByFromCurrencyAndToCurrency("USD", fromCurrency);
+        Optional<ExchangeRate> er2 = rateRepository.getByFromCurrencyAndToCurrency("USD", toCurrency);
+        if (er1.isPresent() && er2.isPresent()) {
+            return ResponseEntity.ok(er1.get().getRate()/er2.get().getRate());
         }
         throw new IllegalArgumentException(join(" ", "Currencies not found", fromCurrency, "USD"));
     }
