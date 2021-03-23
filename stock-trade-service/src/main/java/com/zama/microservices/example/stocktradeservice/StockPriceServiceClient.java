@@ -1,6 +1,7 @@
 package com.zama.microservices.example.stocktradeservice;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,5 +13,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "stock-price-service")
 public interface StockPriceServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/price/{ticker}")
-    Double getPrice(String ticker);
+    Double getPrice(@PathVariable("ticker") String ticker);
 }
