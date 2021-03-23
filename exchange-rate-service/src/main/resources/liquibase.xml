@@ -28,27 +28,4 @@
             insert into exchange_rate(from_currency,to_currency,rate,updated) values ('USD','SAR',3.75,now());
         </sql>
     </changeSet>
-    <changeSet author="zakir" id="2">
-        <createTable tableName="stock_price">
-            <column autoIncrement="true" name="id" type="INT UNSIGNED">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="ticker" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="price" type="DOUBLE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated" type="DATETIME"/>
-        </createTable>
-        <sql>
-            insert into stock_price(ticker,price,updated) values ('AAPL',123.39,now());
-            insert into stock_price(ticker,price,updated) values ('TSLA',670.00,now());
-            insert into stock_price(ticker,price,updated) values ('AMZN',3110.87,now());
-            insert into stock_price(ticker,price,updated) values ('FB',293.94,now());
-            insert into stock_price(ticker,price,updated) values ('MSFT',235.99,now());
-            insert into stock_price(ticker,price,updated) values ('INTC',66.38,now());
-            insert into stock_price(ticker,price,updated) values ('DELL',88.28,now());
-        </sql>
-    </changeSet>
 </databaseChangeLog>
